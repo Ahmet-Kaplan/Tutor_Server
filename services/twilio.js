@@ -415,37 +415,39 @@ module.exports = {
       return
     }
 
-    const populatedSession = await Session.findById(session._id)
-      .populate('student')
-      .exec()
-    const isNewStudent = populatedSession.student.pastSessions.length === 0
+    // const populatedSession = await Session.findById(session._id)
+    //   .populate('student')
+    //   .exec()
+    // const isNewStudent = populatedSession.student.pastSessions.length === 0
 
     // Schedule future notification waves (once every 2 mins, starting in 2 mins)
     // These will continue until the session is fulfilled or ended
-    const interval = setInterval(
-      async session => {
-        const numVolunteersNotified = await notifyRegular(session)
-        if (numVolunteersNotified === 0) {
-          clearInterval(interval)
-        }
-      },
-      120000,
-      session
-    )
-    // store interval in memory
-    getSessionTimeoutFor(session).intervals.push(interval)
+    // const interval = setInterval(
+    //   async session => {
+    //     const numVolunteersNotified = await notifyRegular(session)
+    //     if (numVolunteersNotified === 0) {
+    //       clearInterval(interval)
+    //     }
+    //   },
+    //   120000,
+    //   session
+    // )
+    // // store interval in memory
+    // getSessionTimeoutFor(session).intervals.push(interval)
 
     // Delay initial wave of notifications by 1 min if new student or
     // send initial wave of notifications (right now)
-    if (isNewStudent) {
-      const oneMinute = 1000 * 60
-      const timeoutId = setTimeout(() => {
-        notifyRegular(session)
-      }, oneMinute)
-      getSessionTimeoutFor(session).timeouts.push(timeoutId)
-    } else {
-      notifyRegular(session)
-    }
+    // if (isNewStudent) {
+    //   const oneMinute = 1000 * 60
+    //   const timeoutId = setTimeout(() => {
+    //     notifyRegular(session)
+    //   }, oneMinute)
+    //   getSessionTimeoutFor(session).timeouts.push(timeoutId)
+    // } else {
+    //   notifyRegular(session)
+    // }
+
+    notifyRegular(session)
   },
 
   // begin notifying failsafe volunteers for a session
@@ -458,32 +460,32 @@ module.exports = {
 
     // Schedule future failsafe SMS notifications
     // (Happens later unless session is fulfilled or ended)
-    const desperateTimeout = setTimeout(
-      notifyFailsafe,
-      config.desperateSMSTimeout,
-      session,
-      {
-        desperate: true,
-        voice: false
-      }
-    )
-    getSessionTimeoutFor(session).timeouts.push(desperateTimeout)
+    // const desperateTimeout = setTimeout(
+    //   notifyFailsafe,
+    //   config.desperateSMSTimeout,
+    //   session,
+    //   {
+    //     desperate: true,
+    //     voice: false
+    //   }
+    // )
+    // getSessionTimeoutFor(session).timeouts.push(desperateTimeout)
 
     // Schedule future failsafe phone call notifications
     // (Happens later unless session is fulfilled or ended)
-    const desperateVoiceTimeout = setTimeout(
-      notifyFailsafe,
-      config.desperateVoiceTimeout,
-      session,
-      {
-        desperate: true,
-        voice: true
-      }
-    )
-    getSessionTimeoutFor(session).timeouts.push(desperateVoiceTimeout)
+    // const desperateVoiceTimeout = setTimeout(
+    //   notifyFailsafe,
+    //   config.desperateVoiceTimeout,
+    //   session,
+    //   {
+    //     desperate: true,
+    //     voice: true
+    //   }
+    // )
+    // getSessionTimeoutFor(session).timeouts.push(desperateVoiceTimeout)
 
     // Send first SMS failsafe notifications (Send right now)
-    await notifyFailsafe(session, {
+    notifyFailsafe(session, {
       desperate: false,
       voice: false
     })
