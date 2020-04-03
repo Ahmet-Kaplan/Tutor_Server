@@ -252,7 +252,7 @@ const notifyRegular = async function(session) {
   }
 
   // save notifications to Session instance
-  await session.addNotifications(notifications)
+  // await session.addNotifications(notifications)
   return notifications.length
 }
 
