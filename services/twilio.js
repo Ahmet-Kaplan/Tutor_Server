@@ -111,26 +111,28 @@ var getFailsafeVolunteersFromDb = function() {
 function sendTextMessage(phoneNumber, messageText, isTestUserRequest) {
   console.log(`Sending SMS to ${phoneNumber}...`)
 
-  const testUserNotice = isTestUserRequest ? '[TEST USER] ' : ''
+  // const testUserNotice = isTestUserRequest ? '[TEST USER] ' : ''
 
-  // If stored phone number doesn't have international calling code (E.164 formatting)
-  // then default to US number
-  // @todo: normalize previously stored US phone numbers
-  const fullPhoneNumber =
-    phoneNumber[0] === '+' ? phoneNumber : `+1${phoneNumber}`
+  // // If stored phone number doesn't have international calling code (E.164 formatting)
+  // // then default to US number
+  // // @todo: normalize previously stored US phone numbers
+  // const fullPhoneNumber =
+  //   phoneNumber[0] === '+' ? phoneNumber : `+1${phoneNumber}`
 
-  return twilioClient.messages
-    .create({
-      to: fullPhoneNumber,
-      from: config.sendingNumber,
-      body: testUserNotice + messageText
-    })
-    .then(message => {
-      console.log(
-        `Message sent to ${phoneNumber} with message id \n` + message.sid
-      )
-      return message.sid
-    })
+  // return twilioClient.messages
+  //   .create({
+  //     to: fullPhoneNumber,
+  //     from: config.sendingNumber,
+  //     body: testUserNotice + messageText
+  //   })
+  //   .then(message => {
+  //     console.log(
+  //       `Message sent to ${phoneNumber} with message id \n` + message.sid
+  //     )
+  //     return message.sid
+  //   })
+
+  return Promise.resolve('twilio-sid-placeholder-12345')
 }
 
 function sendVoiceMessage(phoneNumber, messageText) {
