@@ -244,11 +244,11 @@ const notifyRegular = async function(session) {
       isTestUserRequest
     )
 
-    try {
-      notifications.push(await recordNotification(sendPromise, notification))
-    } catch (err) {
-      console.log(err)
-    }
+    // try {
+    //   notifications.push(await recordNotification(sendPromise, notification))
+    // } catch (err) {
+    //   console.log(err)
+    // }
   }
 
   // save notifications to Session instance
@@ -329,15 +329,15 @@ const notifyFailsafe = async function(session, options) {
       method: voice ? 'VOICE' : 'SMS'
     })
 
-    try {
-      notifications.push(await recordNotification(sendPromise, notification))
-    } catch (err) {
-      console.log(err)
-    }
+    // try {
+    //   notifications.push(await recordNotification(sendPromise, notification))
+    // } catch (err) {
+    //   console.log(err)
+    // }
   }
 
   // save notifications to session object
-  await session.addNotifications(notifications)
+  // await session.addNotifications(notifications)
 }
 
 /**
