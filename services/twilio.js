@@ -213,7 +213,7 @@ const notifyRegular = async function(session) {
     .filter(v => v.volunteerPointRank >= 0)
     .sort((v1, v2) => v2.volunteerPointRank - v1.volunteerPointRank)
 
-  const volunteersToNotify = volunteersByPriority.slice(0, 5)
+  const volunteersToNotify = volunteersByPriority.slice(0, 50)
 
   // notifications to record in the database
   const notifications = []
